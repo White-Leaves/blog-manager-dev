@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pcb4.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.pcb4.entity.Article">
+            <id property="id" column="id" />
+            <result property="writerId" column="writer_id" />
+            <result property="title" column="title" />
+            <result property="content" column="content" />
+            <result property="createTime" column="create_time" />
+            <result property="status" column="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,writer_id,title,content,create_time,status
+    </sql>
+    <insert id="createArticle">
+        insert into article (`writer_id`,`title`,`content`,`status`) VALUES
+             (#{writerId},#{title},#{content},'1');
+    </insert>
+
+    <select id="getArticleList" resultType="com.example.pcb4.entity.Article">
+        select * from article;
+    </select>
+
+    <select id="getArticleDetailById" resultType="com.example.pcb4.entity.Article">
+        select * from article
+        where id + #{id};
+    </select>
+    <select id="getArticleNum" resultType="java.lang.Integer">
+        select count(*) from article;
+    </select>
+
+    <select id="getTodayArticleList" resultType="com.example.pcb4.entity.Article">
+        SELECT * from article
+        where TIMESTAMPDIFF(HOUR,create_time,NOW()) &lt; 24;
+    </select>
+
+
+    <update id="updateArticleById">
+        update article
+        set writer_id = (select id from writer where writer_name = #{writerName}),
+            title = #{title},
+            content = #{context}
+        where id = #{id};
+    </update>
+    <delete id="deleteArticleById">
+        delete from article
+        where id = #{id};
+    </delete>
+
+</mapper>

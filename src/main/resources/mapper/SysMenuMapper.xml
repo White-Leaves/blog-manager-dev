@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pcb4.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.pcb4.entity.SysMenu">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="menuCode" column="menu_code" />
+            <result property="parentId" column="parent_id" />
+            <result property="nodeType" column="node_type" />
+            <result property="iconUrl" column="icon_url" />
+            <result property="sort" column="sort" />
+            <result property="url" column="link_url" />
+            <result property="level" column="level" />
+            <result property="path" column="path" />
+            <result property="isDelete" column="is_delete" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,menu_code,parent_id,node_type,icon_url,
+        sort,link_url,level,path,is_delete
+    </sql>
+    <select id="selectAuthByUserIdAndMenuId" resultType="java.lang.Integer">
+        select count(*) from sys_user u
+        left join sys_user_role ur on u.id = ur.user_id
+        left join sys_role r on ur.role_id = r.id
+        left join sys_role_menu rm on r.id = rm.role_id
+        left join sys_menu m on rm.menu_id = m.id
+        where u.id = #{userId} and m.menu_code = #{menuCode}
+    </select>
+</mapper>

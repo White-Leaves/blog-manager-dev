@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pcb4.mapper.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.pcb4.entity.Category">
+            <id property="id" column="id" />
+            <result property="categoryName" column="category_name" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,category_name,create_time
+    </sql>
+    <select id="getCategoryList" resultType="com.example.pcb4.entity.Vo.CategoryVo">
+        select * from Category;
+    </select>
+    <select id="getCategoryDetailByName" resultType="com.example.pcb4.entity.Vo.CategoryVo">
+        select * from Category
+        where Category_name = #{name};
+    </select>
+    <select id="getCategoryArticleByName" resultType="com.example.pcb4.entity.Vo.ArticleVo">
+        select * from article a
+                          left join Category w on a.Category_id = w.id
+        where Category_id in
+              (select id from Category
+               where Category_name = #{name});
+    </select>
+    <select id="getCategoryNum" resultType="java.lang.Integer">
+        select count(*) from Category;
+    </select>
+
+    <select id="getTodayCategoryList" resultType="com.example.pcb4.entity.Vo.CategoryVo">
+        SELECT * from Category
+        where TIMESTAMPDIFF(HOUR,create_time,NOW()) &lt; 24;
+    </select>
+
+    <update id="updateCategory">
+        update Category
+        set Category_name = #{name};
+        where id = #{id};
+    </update>
+    <delete id="deleteCategory">
+        delete Category
+        where id = #{id};
+    </delete>
+</mapper>
