@@ -18,6 +18,7 @@ public interface ArticleService extends IService<Article> {
     void createArticle(ArticleRequest articleRequest);
     Article getArticleById(String id);
     List<ArticleVo> getArticleList();
+    List<ArticleVo> searchArticleList(ArticleRequest articleRequest);
     Integer getArticleNum();
     List<ArticleVo> getTodayArticleList();
 }

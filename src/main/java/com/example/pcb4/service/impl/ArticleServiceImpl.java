@@ -68,6 +68,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     }
 
     @Override
+    public List<ArticleVo> searchArticleList(ArticleRequest articleRequest) {
+        String keyword = null;
+        if (articleRequest != null) {
+            keyword = articleRequest.getKeyword();
+            if (keyword == null || keyword.isBlank()) {
+                keyword = articleRequest.getTitle();
+            }
+        }
+        List<Article> articlesList = articleMapper.searchArticleList(keyword);
+        return getArticleVos(articlesList);
+    }
+
+    @Override
     public Integer getArticleNum() {
         return articleMapper.getArticleNum();
     }
