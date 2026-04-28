@@ -25,6 +25,21 @@
         select * from article;
     </select>
 
+    <select id="searchArticleList" resultType="com.example.pcb4.entity.Article">
+        select a.* from article a
+        left join writer w on a.writer_id = w.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (
+                    a.title like concat('%', #{keyword}, '%')
+                    or a.content like concat('%', #{keyword}, '%')
+                    or w.writer_name like concat('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
     <select id="getArticleDetailById" resultType="com.example.pcb4.entity.Article">
         select * from article
         where id + #{id};

@@ -21,6 +21,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
     Integer getArticleNum();
     List<Article> getTodayArticleList();
     void createArticle(Integer writerId, String title, String content);
+    List<Article> searchArticleList(String keyword);
 }
 
 

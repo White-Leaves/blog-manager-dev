@@ -1,6 +1,5 @@
 package com.example.pcb4.controller;
 
-import com.example.pcb4.entity.Article;
 import com.example.pcb4.entity.Request.ArticleRequest;
 import com.example.pcb4.entity.Vo.ArticleVo;
 import com.example.pcb4.service.ArticleService;
@@ -39,6 +38,16 @@ public class ArticleController {
         }
 
 
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Map<String,Object>> searchArticle(@RequestBody ArticleRequest request){
+        try{
+            List<ArticleVo> articleList = articleService.searchArticleList(request);
+            return ResponseEntity.ok(Map.of("result",articleList));
+        }catch (Exception e){
+            return ResponseEntity.status(401).body(Map.of("result",e.getMessage()));
+        }
     }
 
     @PostMapping("/delete")

@@ -12,4 +12,5 @@ public class ArticleRequest {
     private String writerName;
     private String title;
     private String content;
+    private String keyword;
 }
